@@ -13,6 +13,7 @@ import java.util.LinkedList;
 public class TextAdapter extends RecyclerView.Adapter<TextAdapter.TextViewHolder> {
     private LinkedList<String> list;
     private TextView textView;
+    private int oldPosition = 0;
 
     public TextAdapter(LinkedList<String> list) {
         this.list = list;
@@ -25,11 +26,13 @@ public class TextAdapter extends RecyclerView.Adapter<TextAdapter.TextViewHolder
     }
 
     @Override
-    public void onBindViewHolder(@NonNull final TextViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final TextViewHolder holder, final int position) {
         holder.textView.setText(list.get(position) + "");
-        if (position == 0) {
+        if (position == oldPosition) {
             textView = holder.textView;
             holder.textView.setTextColor(Color.parseColor("#FF4081"));
+        } else {
+            holder.textView.setTextColor(Color.parseColor("#000000"));
         }
         holder.textView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -39,6 +42,7 @@ public class TextAdapter extends RecyclerView.Adapter<TextAdapter.TextViewHolder
                 }
                 holder.textView.setTextColor(Color.parseColor("#FF4081"));
                 textView = holder.textView;
+                oldPosition = position;
             }
         });
     }
